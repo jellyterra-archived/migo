@@ -2,11 +2,11 @@
 // This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0
 // that can be found in the LICENSE file and https://mozilla.org/MPL/2.0/.
 
-package migo
+package parser
 
 import (
-	"cee/ast"
 	"fmt"
+	"migo/ast"
 )
 
 type UnexpectedNodeError struct {
@@ -15,12 +15,12 @@ type UnexpectedNodeError struct {
 }
 
 func (e UnexpectedNodeError) Error() string {
-	from := e.Node.GetPosRange().From
+	from := e.Node.GetPosRange().Begin
 
 	if tok, ok := e.Node.(ast.Token); ok {
-		return fmt.Sprint(from.String(), Tr(" syntax error: unexpected token: "), tok.Literal)
+		return fmt.Sprint(from.String(), " syntax error: unexpected token: ", tok.Literal)
 	}
-	return fmt.Sprint(from.String(), Tr(" syntax error: unexpected node"))
+	return fmt.Sprint(from.String(), " syntax error: unexpected node")
 }
 
 type UnknownOperatorError struct {
